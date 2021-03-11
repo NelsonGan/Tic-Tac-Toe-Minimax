@@ -16,6 +16,24 @@ h1 {
     margin: 50px;
 }
 
+@media (max-width: 600px) {
+    #tictactoe-grid {
+        transform: scale(0.55);
+        margin-top: -60px;
+    }
+
+    h1 {
+        margin: 20px 5px;
+        font-size: 45px;
+    }
+
+    #retry {
+        display: absolute;
+        top: 500px;
+        width: 250px;
+    }
+}
+
 #tictactoe-grid {
     display: grid;
     background-color: white;
@@ -40,20 +58,21 @@ h1 {
 #selection {
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    height: 100%;
 }
 
 .player {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    text-align: center;
     font-size: 30px;
     height: 50px;
-    width: 300px;
+    width: 250px;
+    margin: 0 auto;
+    margin-top: 50px;
     color: white;
-    border: 2px solid white;
-    margin: 20px;
-    transition-duration: 0.5s;
     background-color: #101010;
+    border: 2px solid white;
+    transition-duration: 0.2s;
 }
 
 .player:hover {
@@ -61,7 +80,6 @@ h1 {
     background-color: white;
     color: black;
     transform: scale(1.1);
-    transition-duration: 0.5s;
 }
 
 .retry {
@@ -70,11 +88,11 @@ h1 {
     height: 50px;
     width: 300px;
     color: white;
+    background-color: #101010;
     border: 2px solid white;
     margin: 20px;
-    transition-duration: 0.5s;
-    background-color: #101010;
-    bottom: 50px;
+    transition-duration: 0.2s;
+    bottom: 10%;
 }
 
 .retry:hover {

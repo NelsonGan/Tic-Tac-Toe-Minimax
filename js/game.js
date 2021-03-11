@@ -1,8 +1,3 @@
-// Define variables
-X = "X"
-O = "O"
-EMPTY = null
-
 // Board initialisation
 function initial_state() {
     return [[EMPTY, EMPTY, EMPTY],
@@ -68,11 +63,14 @@ function result(board, action) {
 
     // Retrieving value (i, j)
     let row = action[0]
-    let cell = action[1]
+    let col = action[1]
 
     // Modifying board
-    if (copy_board[row][cell] == EMPTY) {
-        copy_board[row][cell] = turn;
+    if (copy_board[row][col] == EMPTY) {
+        copy_board[row][col] = turn;
+    }
+    else {
+        console.log("Invalid move!");
     }   
 
     // Return copied board
@@ -214,6 +212,21 @@ function minimax(board) {
     // Possible actions
     let possible_actions = actions(board);
 
+    // First move optimisation
+    // Iterating through the board
+    let checker = 0;
+    for (let row=0; row<board.length; row++) {
+        for (let cell=0; cell<board[row].length; cell++) {
+            if (board[row][cell] != null) {
+                checker += 1;
+            }
+        }
+    }
+    
+    if (checker == 0) {
+        return [0, 0]
+    }
+
     // If max player's turn (X)
     let maxplayervalue = Number.NEGATIVE_INFINITY;
     let max_action = [];
@@ -257,67 +270,173 @@ function updateBoard(board) {
         for (let cell=0; cell<board[row].length; cell++) {
             let item = "grid-item-" + row + "-" + cell;
             if (board[row][cell] == X) {
-                //Draw X
+                // Draw X
                 document.getElementById(item).innerText = "X";
             }
             else if (board[row][cell] == O) {
-                //Draw O
+                // Draw O
                 document.getElementById(item).innerText = "O";
+            }
+            else {
+                // Draw empty
+                document.getElementById(item).innerText = "";
             }
         }
     }
 }
 
-// Go back to main page
-function retry() {
+
+// Display selection tab
+function retry(board) {
    // Hide selection page and show game page
    document.getElementById("selection").style.display = "flex";
    document.getElementById("content").style.display = "none";
+   document.getElementById("title").innerText = "Tic Tac Toe";
+
+   // Reset game board
+   return initial_state();
 }
 
-// End game
 
-// Main game function
+// Display game tab
 function playGame(choice) {
+
+    if (choice == O) {
+        // Computer play first
+        board = computerPlay(board);
+    }
 
     // Hide selection page and show game page
     document.getElementById("content").style.display = "flex";
     document.getElementById("selection").style.display = "none";
 
-    // Initialise board
-    board = intial_state();
+    // Enaeble tic tac toe click again
+    document.getElementById("tictactoe-grid").style.pointerEvents = "auto";
+}
 
-    if (choice == X) {
-        // Start the gamge
-        while (true) {
-            // End game
-            if (terminal(board)) {
-                if (utility(board) == 1) {
-                    document.getElementById('title').innerText = "You won!";
-                }
-                else if (utility(board) == 01) {
-                    document.getElementById('title').innerText = "You lost!";
-                }
-                else {
-                    document.getElementById('title').innerText = "Tie game!";
-                }
-                break;
-            }
+// Play game (making move)
+function play(board, move) {
 
+    // Turn (check before update to know who is player)
+    turn = player(board);
 
+    // Updating board
+    board = result(board, move);
+    updateBoard(board);
+
+    // Check if anyone win (or who win)
+    if (terminal(board)) {
+        if (utility(board) == 1 && turn == X) {
+            // Display message
+            document.getElementById("title").innerText = "You won!";
+            document.getElementById("tictactoe-grid").style.pointerEvents = "none";
+        }
+        else if (utility(board) == -1 && turn == O) {
+            // Display message
+            document.getElementById("title").innerText = "You won!";
+            document.getElementById("tictactoe-grid").style.pointerEvents = "none";
+        }
+        else if (utility(board) == 0) {
+            // Display message
+            document.getElementById("title").innerText = "Tie!";
+            document.getElementById("tictactoe-grid").style.pointerEvents = "none";
+        }
+        else {
+            // Display message
+            document.getElementById("title").innerText = "You Lost!";
+            document.getElementById("tictactoe-grid").style.pointerEvents = "none";
         }
     }
     else {
-
+        // Computer's move
+        board = computerPlay(board)
     }
+    
+    return board;
+}
+
+function computerPlay(board) {
+
+    // Get optimal move from minimax
+    optimal_move = minimax(board);
+
+    // Updating board
+    board = result(board, optimal_move);
+    updateBoard(board);
+
+    // Turn (check after update to know who is player)
+    player(board);
+
+    // Check if anyone win (or who win)
+    if (terminal(board)) {
+        if (utility(board) == 1 && turn == X) {
+            // Display message
+            document.getElementById("title").innerText = "You won!";
+            document.getElementById("tictactoe-grid").style.pointerEvents = "none";
+        }
+        else if (utility(board) == -1 && turn == O) {
+            // Display message
+            document.getElementById("title").innerText = "You won!";
+            document.getElementById("tictactoe-grid").style.pointerEvents = "none";
+        }
+        else if (utility(board) == 0) {
+            // Display message
+            document.getElementById("title").innerText = "Tie!";
+            document.getElementById("tictactoe-grid").style.pointerEvents = "none";
+        }
+        else {
+            // Display message
+            document.getElementById("title").innerText = "You Lost!";
+            document.getElementById("tictactoe-grid").style.pointerEvents = "none";
+        }
+    }
+
+    return board;
 }
 
 
 // Add event listener to buttons
+// Player X and Player O
 let playerXButton = document.getElementById("Xplayer");
 let playerOButton = document.getElementById("Oplayer");
 playerXButton.addEventListener('click',()=>playGame(X));
 playerOButton.addEventListener('click',()=>playGame(O));
 
+// Retry button
 let retryButton = document.getElementById("retry");
-retryButton.addEventListener('click',()=>retry());
+retryButton.addEventListener('click',()=>{
+    board = retry(board);
+    updateBoard(board);
+});
+
+// All 9 game boxes
+let gameBox1 = document.getElementById("grid-item-0-0");
+let gameBox2 = document.getElementById("grid-item-0-1");
+let gameBox3 = document.getElementById("grid-item-0-2");
+let gameBox4 = document.getElementById("grid-item-1-0");
+let gameBox5 = document.getElementById("grid-item-1-1");
+let gameBox6 = document.getElementById("grid-item-1-2");
+let gameBox7 = document.getElementById("grid-item-2-0");
+let gameBox8 = document.getElementById("grid-item-2-1");
+let gameBox9 = document.getElementById("grid-item-2-2");
+
+gameBox1.addEventListener('click',()=>board=play(board, [0, 0]));
+gameBox2.addEventListener('click',()=>board=play(board, [0, 1]));
+gameBox3.addEventListener('click',()=>board=play(board, [0, 2]));
+gameBox4.addEventListener('click',()=>board=play(board, [1, 0]));
+gameBox5.addEventListener('click',()=>board=play(board, [1, 1]));
+gameBox6.addEventListener('click',()=>board=play(board, [1, 2]));
+gameBox7.addEventListener('click',()=>board=play(board, [2, 0]));
+gameBox8.addEventListener('click',()=>board=play(board, [2, 1]));
+gameBox9.addEventListener('click',()=>board=play(board, [2, 2]));
+
+
+// Game 
+// Define variables
+var X = "X"
+var O = "O"
+var EMPTY = null
+
+// Initialise Board
+board = initial_state();
+updateBoard(board); 
