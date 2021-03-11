@@ -16,6 +16,12 @@ h1 {
     margin: 50px;
 }
 
+@media (max-width: 1024px) {
+    #retry {
+        top: 680px;;
+    }
+}
+
 @media (max-width: 600px) {
     #tictactoe-grid {
         transform: scale(0.55);
@@ -33,6 +39,7 @@ h1 {
         width: 250px;
     }
 }
+
 
 #tictactoe-grid {
     display: grid;
@@ -94,7 +101,7 @@ h1 {
     bottom: 10%;
     text-align: center;
     margin: 0 auto;
-    padding: 0
+    padding: 0 
 }
 
 .retry:hover {
