@@ -272,10 +272,12 @@ function updateBoard(board) {
             if (board[row][cell] == X) {
                 // Draw X
                 document.getElementById(item).innerText = "X";
+                document.getElementById(item).style.pointerEvents = "none";
             }
             else if (board[row][cell] == O) {
                 // Draw O
                 document.getElementById(item).innerText = "O";
+                document.getElementById(item).style.pointerEvents = "none";
             }
             else {
                 // Draw empty
@@ -312,6 +314,13 @@ function playGame(choice) {
 
     // Enaeble tic tac toe click again
     document.getElementById("tictactoe-grid").style.pointerEvents = null;
+
+    for (let row=0; row<board.length; row++) {
+        for (let cell=0; cell<board[row].length; cell++) {
+            let item = "grid-item-" + row + "-" + cell;
+            document.getElementById(item).style.pointerEvents = null;
+        }
+    }
 }
 
 // Play game (making move)
