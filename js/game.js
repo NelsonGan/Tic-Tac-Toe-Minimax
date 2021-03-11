@@ -272,12 +272,10 @@ function updateBoard(board) {
             if (board[row][cell] == X) {
                 // Draw X
                 document.getElementById(item).innerText = "X";
-                document.getElementById(item).style.pointerEvents = "none";
             }
             else if (board[row][cell] == O) {
                 // Draw O
                 document.getElementById(item).innerText = "O";
-                document.getElementById(item).style.pointerEvents = "none";
             }
             else {
                 // Draw empty
@@ -290,13 +288,13 @@ function updateBoard(board) {
 
 // Display selection tab
 function retry(board) {
-   // Hide selection page and show game page
-   document.getElementById("selection").style.display = "flex";
-   document.getElementById("content").style.display = "none";
-   document.getElementById("title").innerText = "Tic Tac Toe";
+    // Hide selection page and show game page and reset pointerEvents
+    document.getElementById("selection").style.display = "flex";
+    document.getElementById("content").style.display = "none";
+    document.getElementById("title").innerText = "Tic Tac Toe";
 
-   // Reset game board
-   return initial_state();
+    // Reset game board
+    return initial_state();   
 }
 
 
@@ -313,7 +311,7 @@ function playGame(choice) {
     document.getElementById("selection").style.display = "none";
 
     // Enaeble tic tac toe click again
-    document.getElementById("tictactoe-grid").style.pointerEvents = "auto";
+    document.getElementById("tictactoe-grid").style.pointerEvents = null;
 }
 
 // Play game (making move)
@@ -393,12 +391,6 @@ function computerPlay(board) {
     }
 
     return board;
-}
-
-function test(board) {
-    board = [[X, EMPTY, EMPTY],
-    [EMPTY, EMPTY, EMPTY],
-    [EMPTY, EMPTY, EMPTY]];
 }
 
 
