@@ -90,7 +90,6 @@ h1 {
     color: white;
     background-color: #101010;
     border: 2px solid white;
-    margin: 20px;
     transition-duration: 0.2s;
     bottom: 10%;
 }
