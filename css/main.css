@@ -1,0 +1,86 @@
+/* Apply background color and font*/
+body {
+    background-color: #101010;
+    font-family: 'Architects Daughter';
+}
+
+#content {
+    display: none;
+    justify-content: center;
+}
+
+h1 {
+    color: white;
+    font-size: 50px;
+    text-align: center;
+    margin: 50px;
+}
+
+#tictactoe-grid {
+    display: grid;
+    background-color: white;
+    grid-template-rows: 150px 150px 150px;
+    grid-template-columns: 150px 150px 150px;
+}
+
+.item {
+    border: 5px solid white;
+    background-color: #101010;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 100px;
+}
+
+.item:hover {
+    cursor: pointer;
+}
+
+#selection {
+    display: flex;
+    justify-content: center;
+}
+
+.player {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    height: 50px;
+    width: 300px;
+    color: white;
+    border: 2px solid white;
+    margin: 20px;
+    transition-duration: 0.5s;
+    background-color: #101010;
+}
+
+.player:hover {
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    transform: scale(1.1);
+    transition-duration: 0.5s;
+}
+
+.retry {
+    position: absolute;
+    font-size: 30px;
+    height: 50px;
+    width: 300px;
+    color: white;
+    border: 2px solid white;
+    margin: 20px;
+    transition-duration: 0.5s;
+    background-color: #101010;
+    bottom: 50px;
+}
+
+.retry:hover {
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    transform: scale(1.1);
+    transition-duration: 0.5s;
+}
