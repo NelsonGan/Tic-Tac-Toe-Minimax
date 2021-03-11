@@ -92,6 +92,7 @@ h1 {
     border: 2px solid white;
     transition-duration: 0.2s;
     bottom: 10%;
+    text-align: center;
 }
 
 .retry:hover {
