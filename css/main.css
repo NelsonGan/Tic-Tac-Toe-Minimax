@@ -93,6 +93,8 @@ h1 {
     transition-duration: 0.2s;
     bottom: 10%;
     text-align: center;
+    margin: 0 auto;
+    padding: 0
 }
 
 .retry:hover {
