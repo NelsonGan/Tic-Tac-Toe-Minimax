@@ -272,10 +272,12 @@ function updateBoard(board) {
             if (board[row][cell] == X) {
                 // Draw X
                 document.getElementById(item).innerText = "X";
+                document.getElementById(item).style.pointerEvents = "none";
             }
             else if (board[row][cell] == O) {
                 // Draw O
                 document.getElementById(item).innerText = "O";
+                document.getElementById(item).style.pointerEvents = "none";
             }
             else {
                 // Draw empty
@@ -349,9 +351,8 @@ function play(board, move) {
     }
     else {
         // Computer's move
-        board = computerPlay(board)
+        board = computerPlay(board);
     }
-    
     return board;
 }
 
@@ -392,6 +393,12 @@ function computerPlay(board) {
     }
 
     return board;
+}
+
+function test(board) {
+    board = [[X, EMPTY, EMPTY],
+    [EMPTY, EMPTY, EMPTY],
+    [EMPTY, EMPTY, EMPTY]];
 }
 
 
@@ -438,5 +445,5 @@ var O = "O"
 var EMPTY = null
 
 // Initialise Board
-board = initial_state();
+var board = initial_state();
 updateBoard(board); 
