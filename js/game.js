@@ -303,11 +303,6 @@ function retry(board) {
 // Display game tab
 function playGame(choice) {
 
-    if (choice == O) {
-        // Computer play first
-        board = computerPlay(board);
-    }
-
     // Hide selection page and show game page
     document.getElementById("content").style.display = "flex";
     document.getElementById("selection").style.display = "none";
@@ -320,6 +315,11 @@ function playGame(choice) {
             let item = "grid-item-" + row + "-" + cell;
             document.getElementById(item).style.pointerEvents = null;
         }
+    }
+
+    if (choice == O) {
+        // Computer play first
+        board = computerPlay(board);
     }
 }
 
