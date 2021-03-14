@@ -1,3 +1,12 @@
+// Game 
+// Define variables
+var X = "X"
+var O = "O"
+var EMPTY = null
+
+// Initialise Board
+var board = initial_state();
+
 // Board initialisation
 function initial_state() {
     return [[EMPTY, EMPTY, EMPTY],
@@ -264,7 +273,7 @@ function minimax(board) {
 
 
 // Update game board visually
-function updateBoard(board) {
+function updateBoard() {
     // Iterating through the board
     for (let row=0; row<board.length; row++) {
         for (let cell=0; cell<board[row].length; cell++) {
@@ -289,14 +298,14 @@ function updateBoard(board) {
 
 
 // Display selection tab
-function retry(board) {
+function retry() {
     // Hide selection page and show game page and reset pointerEvents
     document.getElementById("selection").style.display = "flex";
     document.getElementById("content").style.display = "none";
     document.getElementById("title").innerText = "Tic Tac Toe";
 
     // Reset game board
-    return initial_state();   
+    board = initial_state();   
 }
 
 
@@ -319,30 +328,30 @@ function playGame(choice) {
 
     if (choice == O) {
         // Computer play first
-        board = computerPlay(board);
+        computerPlayDelay();
     }
 }
 
 // Play game (making move)
-function play(board, move) {
+function play(move) {
 
     // Turn (check before update to know who is player)
     turn = player(board);
 
     // Updating board
     board = result(board, move);
-    updateBoard(board);
+    updateBoard();
 
     // Check if anyone win (or who win)
     if (terminal(board)) {
         if (utility(board) == 1 && turn == X) {
             // Display message
-            document.getElementById("title").innerText = "You won!";
+            document.getElementById("title").innerText = "You win!";
             document.getElementById("tictactoe-grid").style.pointerEvents = "none";
         }
         else if (utility(board) == -1 && turn == O) {
             // Display message
-            document.getElementById("title").innerText = "You won!";
+            document.getElementById("title").innerText = "You win!";
             document.getElementById("tictactoe-grid").style.pointerEvents = "none";
         }
         else if (utility(board) == 0) {
@@ -352,25 +361,25 @@ function play(board, move) {
         }
         else {
             // Display message
-            document.getElementById("title").innerText = "You Lost!";
+            document.getElementById("title").innerText = "You lose!";
             document.getElementById("tictactoe-grid").style.pointerEvents = "none";
         }
     }
     else {
         // Computer's move
-        board = computerPlay(board);
+        computerPlayDelay();
     }
-    return board;
 }
 
-function computerPlay(board) {
+// Computer make move using minimax algorithm
+function computerPlay() {
 
     // Get optimal move from minimax
     optimal_move = minimax(board);
 
     // Updating board
     board = result(board, optimal_move);
-    updateBoard(board);
+    updateBoard();
 
     // Turn (check after update to know who is player)
     player(board);
@@ -379,12 +388,12 @@ function computerPlay(board) {
     if (terminal(board)) {
         if (utility(board) == 1 && turn == X) {
             // Display message
-            document.getElementById("title").innerText = "You won!";
+            document.getElementById("title").innerText = "You win!";
             document.getElementById("tictactoe-grid").style.pointerEvents = "none";
         }
         else if (utility(board) == -1 && turn == O) {
             // Display message
-            document.getElementById("title").innerText = "You won!";
+            document.getElementById("title").innerText = "You win!";
             document.getElementById("tictactoe-grid").style.pointerEvents = "none";
         }
         else if (utility(board) == 0) {
@@ -394,12 +403,26 @@ function computerPlay(board) {
         }
         else {
             // Display message
-            document.getElementById("title").innerText = "You Lost!";
+            document.getElementById("title").innerText = "You lose!";
             document.getElementById("tictactoe-grid").style.pointerEvents = "none";
         }
     }
+}
 
-    return board;
+// Adding delay to computer's move
+function computerPlayDelay() {
+
+    // Set message and disable tic tac toe grid
+    document.getElementById("title").innerText = "Computer thinking...";
+    document.getElementById("tictactoe-grid").style.pointerEvents = "none";
+    
+    // Execute main function
+    setTimeout(function(){
+        // Set message
+        document.getElementById("title").innerText = "Your turn.";
+        document.getElementById("tictactoe-grid").style.pointerEvents = null;
+        computerPlay();
+    },1500);
 }
 
 
@@ -413,8 +436,8 @@ playerOButton.addEventListener('click',()=>playGame(O));
 // Retry button
 let retryButton = document.getElementById("retry");
 retryButton.addEventListener('click',()=>{
-    board = retry(board);
-    updateBoard(board);
+    retry();
+    updateBoard();
 });
 
 // All 9 game boxes
@@ -428,23 +451,12 @@ let gameBox7 = document.getElementById("grid-item-2-0");
 let gameBox8 = document.getElementById("grid-item-2-1");
 let gameBox9 = document.getElementById("grid-item-2-2");
 
-gameBox1.addEventListener('click',()=>board=play(board, [0, 0]));
-gameBox2.addEventListener('click',()=>board=play(board, [0, 1]));
-gameBox3.addEventListener('click',()=>board=play(board, [0, 2]));
-gameBox4.addEventListener('click',()=>board=play(board, [1, 0]));
-gameBox5.addEventListener('click',()=>board=play(board, [1, 1]));
-gameBox6.addEventListener('click',()=>board=play(board, [1, 2]));
-gameBox7.addEventListener('click',()=>board=play(board, [2, 0]));
-gameBox8.addEventListener('click',()=>board=play(board, [2, 1]));
-gameBox9.addEventListener('click',()=>board=play(board, [2, 2]));
-
-
-// Game 
-// Define variables
-var X = "X"
-var O = "O"
-var EMPTY = null
-
-// Initialise Board
-var board = initial_state();
-updateBoard(board); 
+gameBox1.addEventListener('click',()=>play([0, 0]));
+gameBox2.addEventListener('click',()=>play([0, 1]));
+gameBox3.addEventListener('click',()=>play([0, 2]));
+gameBox4.addEventListener('click',()=>play([1, 0]));
+gameBox5.addEventListener('click',()=>play([1, 1]));
+gameBox6.addEventListener('click',()=>play([1, 2]));
+gameBox7.addEventListener('click',()=>play([2, 0]));
+gameBox8.addEventListener('click',()=>play([2, 1]));
+gameBox9.addEventListener('click',()=>play([2, 2]));
